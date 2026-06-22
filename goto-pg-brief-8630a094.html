@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PG模拟器 · 知识库入口</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            background-color: #f6f7fa;
+            color: #1e222b;
+            line-height: 1.7;
+        }
+
+        /* 深色头图 */
+        .hero {
+            background: linear-gradient(135deg, #0d1117 0%, #1a2332 70%, #2b3b4f 100%);
+            color: #e3e9f0;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -40%;
+            left: -10%;
+            width: 120%;
+            height: 80%;
+            background: radial-gradient(circle at 30% 50%, rgba(70, 130, 200, 0.08), transparent 70%);
+            pointer-events: none;
+        }
+
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: #f0f4fc;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero .sub {
+            font-size: 1.2rem;
+            font-weight: 300;
+            margin-top: 1rem;
+            color: #b6c6db;
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* 核心内容区 — 浅色卡片+目录感布局 */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+        }
+
+        .section-title {
+            font-size: 1.6rem;
+            font-weight: 350;
+            border-left: 5px solid #3b6c9e;
+            padding-left: 1rem;
+            margin: 2.8rem 0 1.5rem;
+            color: #1e2b3c;
+            letter-spacing: 0.5px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 1.8rem 1.8rem 2.2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03), 0 2px 6px rgba(0, 0, 0, 0.02);
+            transition: box-shadow 0.2s;
+            border: 1px solid #edeff4;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 24px rgba(23, 45, 80, 0.08);
+        }
+
+        .card h3 {
+            font-weight: 450;
+            font-size: 1.3rem;
+            margin-bottom: 0.8rem;
+            color: #1b2a3e;
+        }
+
+        .card p, .card li {
+            font-size: 0.98rem;
+            color: #2c3748;
+        }
+
+        .card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        .card ul li {
+            padding: 0.4rem 0 0.4rem 1.8rem;
+            position: relative;
+        }
+
+        .card ul li::before {
+            content: '·';
+            position: absolute;
+            left: 0;
+            color: #3b6c9e;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .info-block {
+            display: flex;
+            flex-wrap: wrap;
+            background: #f2f5fc;
+            border-radius: 18px;
+            padding: 2rem 2.2rem;
+            margin: 2rem 0;
+            border-left: 4px solid #3b6c9e;
+            gap: 1.5rem;
+        }
+
+        .info-block .label {
+            font-weight: 500;
+            color: #1a2f47;
+            min-width: 80px;
+        }
+
+        .info-block .content {
+            flex: 1;
+            color: #1e2a38;
+        }
+
+        .faq-item {
+            margin-bottom: 1.6rem;
+        }
+
+        .faq-item .q {
+            font-weight: 500;
+            color: #1a2e42;
+            margin-bottom: 0.3rem;
+            font-size: 1.02rem;
+        }
+
+        .faq-item .a {
+            padding-left: 1rem;
+            border-left: 3px solid #cfdbe9;
+            color: #2c3850;
+            font-size: 0.96rem;
+        }
+
+        .highlight-link {
+            color: #1d5b9e;
+            text-decoration: none;
+            font-weight: 400;
+            border-bottom: 1px dotted #8aa9cf;
+            transition: color 0.15s, border-color 0.15s;
+        }
+
+        .highlight-link:hover {
+            color: #b33c2f;
+            border-bottom-color: #b33c2f;
+        }
+
+        .btn-outline {
+            display: inline-block;
+            margin-top: 1.2rem;
+            padding: 0.5rem 1.6rem;
+            border: 1px solid #3b6c9e;
+            border-radius: 30px;
+            background: transparent;
+            color: #1d4c7c;
+            font-size: 0.9rem;
+            transition: background 0.2s, color 0.2s;
+            text-decoration: none;
+        }
+
+        .btn-outline:hover {
+            background: #1d4c7c;
+            color: white;
+        }
+
+        .tip-box {
+            background: #fcf8e8;
+            border-radius: 20px;
+            padding: 1.8rem 2rem;
+            margin: 2.5rem 0 1.5rem;
+            border: 1px solid #e5dcc8;
+        }
+
+        .tip-box strong {
+            color: #7a5d2a;
+        }
+
+        .footer-note {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem 0 1rem;
+            border-top: 1px solid #d7dce6;
+            color: #5d6a80;
+            font-size: 0.9rem;
+        }
+
+        /* 响应式 */
+        @media (max-width: 740px) {
+            .hero h1 {
+                font-size: 2.4rem;
+            }
+            .grid-2 {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            .info-block {
+                flex-direction: column;
+                gap: 0.8rem;
+            }
+            .hero {
+                padding: 4rem 1.5rem 3rem;
+            }
+            .container {
+                padding: 1.5rem 1rem 3rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            .card {
+                padding: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="hero">
+    <h1>PG模拟器 知识库</h1>
+    <div class="sub">日常查询 · 对照参考 · 延伸阅读 —— 一个由社区与文档沉淀的轻量入口</div>
+</div>
+
+<div class="container">
+
+    <!-- 说明区：卡片 -->
+    <div class="section-title">为什么需要 PG模拟器 的对照页</div>
+    <p style="margin-bottom: 1.8rem; color: #2e3a4b;">无论是初次接触还是长期使用，手边有一份结构化的摘要总比零散搜索方便。下面的卡片整理了最常见的信息分类，方便快速定位。</p>
+
+    <div class="grid-2">
+        <div class="card">
+            <h3>📘 基础特性</h3>
+            <ul>
+                <li>支持 PostgreSQL 协议与语法子集</li>
+                <li>本地或远程环境均可快速部署</li>
+                <li>兼容常见 ORM 与客户端工具</li>
+                <li>配置聚焦于模拟、测试与学习场景</li>
+            </ul>
+            <p style="margin-top: 0.8rem;">更多细节可参考 <a href="https://goto-pg.com" class="highlight-link">PG模拟器</a> 的在线文档与更新日志。</p>
+        </div>
+        <div class="card">
+            <h3>🔧 常用场景</h3>
+            <ul>
+                <li>单元测试与集成测试的环境隔离</li>
+                <li>持续集成流水线中的轻量数据库实例</li>
+                <li>本地开发时避免依赖外部数据库</li>
+                <li>学习 SQL 或验证迁移脚本</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 提示区 -->
+    <div class="tip-box">
+        <strong>💡 提示</strong> — 如果希望快速对比不同版本或配置的行为差异，可以考虑同时运行两个实例。每个实例的端口与数据目录相互独立，通过环境变量切换非常直接。<br>
+        <span style="display: inline-block; margin-top: 0.5rem;">若需要复现特定异常，查阅 <a href="https://goto-pg.com" class="highlight-link">PG模拟器</a> 的常见问题列表常常比直接搜索更节省时间。</span>
+    </div>
+
+    <!-- 信息区：对照/相关 -->
+    <div class="section-title">相关信息与对照</div>
+
+    <div class="info-block">
+        <div class="label">🔄 对照</div>
+        <div class="content">
+            <strong>PG模拟器</strong> 与完整 PostgreSQL 实例的关系：模拟器侧重于行为兼容与快速启动，不适合生产级负载或高并发场景。但它保留了大部分数据类型、事务和 DDL 支持。如果你正在考虑使用场景，先明确是“验证语法”还是“压力测试”，前者更契合模拟器的定位。
+        </div>
+    </div>
+
+    <div class="info-block" style="border-left-color: #9d7a48; background: #f8f4ea;">
+        <div class="label">📎 延伸</div>
+        <div class="content">
+            一些社区成员整理了基于 <a href="https://goto-pg.com" class="highlight-link">PG模拟器</a> 的 docker-compose 示例以及 GitHub Actions 配置片段。它们通常包括初始化脚本、自定义参数和简单的健康检查。这些材料适合作为自己搭建测试环境的起点，但建议先阅读模拟器自身的说明文档。
+        </div>
+    </div>
+
+    <!-- FAQ 摘要 -->
+    <div class="section-title">FAQ 摘要</div>
+
+    <div class="faq-item">
+        <div class="q">Q: 我能否用模拟器替代测试数据库？</div>
+        <div class="a">A: 对于功能测试和大部分集成测试，通常可行。但若涉及存储过程、自定义扩展或细粒度权限，需要先验证兼容性。建议在非关键路径上逐步采用。</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="q">Q: 模拟器是否支持 SSL 连接？</div>
+        <div class="a">A: 支持，默认不强制开启。可以在配置文件中指定证书路径。更多细节可以在 <a href="https://goto-pg.com" class="highlight-link">PG模拟器</a> 的配置参考中找到。</div>
+    </div>
+
+    <div class="faq-item">
+        <div class="q">Q: 数据持久化是如何处理的？</div>
+        <div class="a">A: 模拟器默认将数据保存到指定目录，关闭实例后数据保留。你可以通过启动参数调整持久化行为，也支持内存模式（重启即清零）。</div>
+    </div>
+
+    <div style="text-align: right; margin-top: 0.5rem;">
+        <a href="https://goto-pg.com" class="btn-outline" style="text-decoration: none;">PG模拟器</a>
+    </div>
+
+    <div class="footer-note">
+        <span>本页为知识库入口式索引，内容基于公开资料整理 · 2025</span>
+    </div>
+
+</div>
+
+</body>
+</html>
